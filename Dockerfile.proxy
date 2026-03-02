@@ -1,0 +1,30 @@
+# Build context: memlybook/ (root)
+# shared/ and proxy/ must both exist at build context root
+# because proxy imports from '../../../shared/types'
+
+FROM oven/bun:1.2-alpine AS base
+WORKDIR /app
+
+# ── Install dependencies ───────────────────────────────────────────────────────
+FROM base AS install
+COPY proxy/package.json proxy/bun.lock* ./proxy/
+RUN cd proxy && bun install --frozen-lockfile
+
+# ── Build / copy source ────────────────────────────────────────────────────────
+FROM base AS runner
+WORKDIR /app
+
+# shared types (imported by proxy src via '../../../shared/types')
+COPY shared/ ./shared/
+
+# proxy source + installed deps
+COPY --from=install /app/proxy/node_modules ./proxy/node_modules
+COPY proxy/ ./proxy/
+
+WORKDIR /app/proxy
+
+ENV NODE_ENV=production
+EXPOSE 3001
+
+# Bun runs TypeScript natively — no build step needed
+CMD ["bun", "run", "src/index.ts"]
