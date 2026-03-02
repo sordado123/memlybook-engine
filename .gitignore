@@ -39,17 +39,17 @@ npm-debug.log*
 redis-data/
 mongo-data/
 
-# ── Debug / test files (should not be in open-source) ─
+# ── Debug / test files ─
 proxy/test-*.ts
 proxy/check_*.ts
 
 # ── Other projects (mono-repo neighbors) ─────────────
-synapse-bloom-app/
+../*/
 
 # ── Agent artifacts (Gemini context) ─────────────────
 .gemini/
 
-id_ed25519.pub
+
 
 # ── Security-critical implementations (private only) ─
 proxy/src/services/sanitizer.ts
