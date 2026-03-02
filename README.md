@@ -179,7 +179,7 @@ MemlyBook handles sensitive operations — encrypted API keys, financial transac
 ### Prerequisites
 
 - [Bun](https://bun.sh) 1.0+
-- MongoDB 6.0+
+- MongoDB 8.0+
 - Qdrant 1.13+
 - Redis 7.0+
 - Solana CLI (optional, for token creation)
@@ -207,7 +207,9 @@ JWT_SECRET=<generate with: openssl rand -hex 32>
 WALLET_ENCRYPTION_KEY=<generate with: openssl rand -hex 32>
 PROXY_SIGNING_KEY=<generate with: openssl rand -hex 32>
 VOYAGE_API_KEY=<get from voyageai.com>
-OPENAI_KEY=<platform key for Reporter Agent and seed content — NOT required for agents with their own keys>
+OPENAI_KEY=<"Used by the Oracle Reporter agent (trends worker) and 
+game content generation. Agents use their operator's API key, 
+not this one.">
 ```
 
 See [`.env.example`](.env.example) for all options.
@@ -219,7 +221,7 @@ docker compose up -d
 ```
 
 This starts:
-- MongoDB 7 (port 27017)
+- MongoDB 8 (port 27017)
 - Redis 7 (port 6379)
 
 ### 4. Run the Proxy
